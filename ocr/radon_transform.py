@@ -1,5 +1,5 @@
 # @Author  : lightXu
-# @File    : randn_transform.py
+# @File    : radon_transform.py
 from skimage.transform import radon
 from PIL import Image
 import numpy as np
@@ -12,7 +12,7 @@ import cv2
 from ocr.utils import resize_by_percent
 
 
-def randn_demo():
+def radon_demo():
     filename = 'skew-linedetection.png'
 
     # Load file, converting to grayscale
@@ -57,7 +57,7 @@ def randn_demo():
     plt.show()
 
 
-def randn(image):
+def radon_ski(image):
     """ Long time consuming, Strong generalization ability, high accuracy"""
     img_np = resize_by_percent(asarray(image), 0.2)
     if len(img_np.shape) == 3:
@@ -90,7 +90,7 @@ def randn(image):
         return image
 
 
-def randn_cv(image):
+def radon_cv(image):
     """ not Long time consuming, not Strong generalization ability, not high accuracy"""
     img_np = resize_by_percent(asarray(image), 1)
     if len(img_np.shape) == 3:
@@ -127,11 +127,11 @@ if __name__ == '__main__':
     img = cv2.imread(img_path)
     # gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     time1 = time.time()
-    randn_cv(img)
+    radon_cv(img)
     time2 = time.time()
     print(time2-time1)
 
-    randn(img)
+    radon(img)
     time3 = time.time()
     print(time3-time2)
 

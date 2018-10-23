@@ -4,7 +4,7 @@ from subprocess import Popen, PIPE, STDOUT
 import os
 
 import pytesseract
-from ocr import preprocess, randn_transform
+from ocr import preprocess, radon_transform
 
 
 def tesseract_by_cmd(img_path, save_txt_path):
@@ -19,7 +19,7 @@ def tesseract_by_cmd(img_path, save_txt_path):
 
 def tesseract_by_py(img_path, save_txt_path):
     img = preprocess.preprocess(img_path, show=False)
-    img = randn_transform.randn(img)
+    img = radon_transform.radon_ski(img)
     txt = pytesseract.image_to_string(img, lang='chi_sim+epu+eng', boxes=False, output_type='string')
     with open(save_txt_path, 'w', encoding='utf-8') as writter:
         writter.writelines(txt)
