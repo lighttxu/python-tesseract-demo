@@ -83,7 +83,7 @@ def radon_ski(image):
         # 返回旋转后的图像
         return rotated
 
-    if 1 <= rotation <= 20:
+    if 1 <= rotation <= 7:
         img_correct = rotate(image, rotation)
         return img_correct
     else:
@@ -112,13 +112,17 @@ def radon_cv(image):
     angle = cv2.fastAtan2((y2 - y1), (x2 - x1))
     print(angle)
 
-    centerpoint = (image.shape[1] / 2, image.shape[0] / 2)
-    rotate_mat = cv2.getRotationMatrix2D(centerpoint, angle, 1.0)  # 获取旋转矩阵
-    correct_image = cv2.warpAffine(image, rotate_mat, (image.shape[1], image.shape[0]),
-                                   borderValue=(255, 255, 255))
-    cv2.imshow('test', resize_by_percent(correct_image, 0.1))
-    cv2.waitKey(10)
-    return correct_image
+    if 1 <= angle <= 7:  # 因为识别误差问题，根据实际情况设置旋转阈值
+        centerpoint = (image.shape[1] / 2, image.shape[0] / 2)
+        rotate_mat = cv2.getRotationMatrix2D(centerpoint, angle, 1.0)  # 获取旋转矩阵
+        correct_image = cv2.warpAffine(image, rotate_mat, (image.shape[1], image.shape[0]),
+                                       borderValue=(255, 255, 255))
+
+        cv2.imshow('test', resize_by_percent(correct_image, 0.1))
+        cv2.waitKey(10)
+        return correct_image
+    else:
+        return image
 
 
 if __name__ == '__main__':
