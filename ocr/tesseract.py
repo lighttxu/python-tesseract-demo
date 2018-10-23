@@ -19,7 +19,7 @@ def tesseract_by_cmd(img_path, save_txt_path):
 
 def tesseract_by_py(img_path, save_txt_path):
     img = preprocess.preprocess(img_path, show=False)
-    img = radon_transform.radon_ski(img)
+    img = radon_transform.radon_cv(img)
     txt = pytesseract.image_to_string(img, lang='chi_sim+epu+eng', boxes=False, output_type='string')
     with open(save_txt_path, 'w', encoding='utf-8') as writter:
         writter.writelines(txt)

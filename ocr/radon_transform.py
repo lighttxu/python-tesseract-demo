@@ -91,12 +91,15 @@ def radon_ski(image):
 
 
 def radon_cv(image):
-    """ not Long time consuming, not Strong generalization ability, not high accuracy"""
+    """ not Long time consuming, not Strong generalization ability, not high accuracy, more super parameters"""
     img_np = resize_by_percent(asarray(image), 1)
     if len(img_np.shape) == 3:
         img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
     canny_image = cv2.Canny(img_np, 0, 255, apertureSize=3)
-    lines = cv2.HoughLinesP(canny_image, 1, np.pi / 180, 160, minLineLength=200, maxLineGap=180)
+    # cv2.imshow('canny', canny_image)
+    # cv2.waitKey(10)
+    lines = cv2.HoughLinesP(canny_image, 1, np.pi / 180, 160, minLineLength=500, maxLineGap=65)
+    # lines = cv2.HoughLines(canny_image, 1, np.pi / 180, 160, max_theta=30, min_theta=0)
 
     # 寻找长度最长的线
     distance = []
@@ -112,14 +115,14 @@ def radon_cv(image):
     angle = cv2.fastAtan2((y2 - y1), (x2 - x1))
     print(angle)
 
-    if 1 <= angle <= 7:  # 因为识别误差问题，根据实际情况设置旋转阈值
+    if 0.5 <= angle <= 7:  # 因为识别误差问题，根据实际情况设置旋转阈值
         centerpoint = (image.shape[1] / 2, image.shape[0] / 2)
         rotate_mat = cv2.getRotationMatrix2D(centerpoint, angle, 1.0)  # 获取旋转矩阵
         correct_image = cv2.warpAffine(image, rotate_mat, (image.shape[1], image.shape[0]),
                                        borderValue=(255, 255, 255))
 
-        cv2.imshow('test', resize_by_percent(correct_image, 0.1))
-        cv2.waitKey(10)
+        # cv2.imshow('test', resize_by_percent(correct_image, 0.1))
+        # cv2.waitKey(10)
         return correct_image
     else:
         return image
@@ -127,7 +130,7 @@ def radon_cv(image):
 
 if __name__ == '__main__':
     import time
-    img_path = r'C:\Users\Administrator\Desktop\subject\history\65_1.jpg'
+    img_path = r'C:\Users\Administrator\Desktop\afanti1\65_1.jpg'
     img = cv2.imread(img_path)
     # gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     time1 = time.time()
@@ -135,7 +138,7 @@ if __name__ == '__main__':
     time2 = time.time()
     print(time2-time1)
 
-    radon(img)
+    radon_ski(img)
     time3 = time.time()
     print(time3-time2)
 
