@@ -130,7 +130,7 @@ def radon_cv(image):
 
 if __name__ == '__main__':
     import time
-    img_path = r'C:\Users\Administrator\Desktop\afanti1\65_1.jpg'
+    img_path = r'C:\Users\Administrator\Desktop\subject\history\01.jpg'
     img = cv2.imread(img_path)
     # gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     time1 = time.time()
