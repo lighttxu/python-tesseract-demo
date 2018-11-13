@@ -66,7 +66,7 @@ def radon_ski(image):
     sinogram = radon(img_np_mean, circle=True)
     r = array([rms_flat(line) for line in sinogram.transpose()])
     rotation = 90 - argmax(r)
-    print(rotation)
+    print('radon', rotation)
 
     def rotate(image, angle, center=None, scale=1.0):
         # 获取图像尺寸
@@ -78,21 +78,23 @@ def radon_ski(image):
 
         # 执行旋转
         M = cv2.getRotationMatrix2D(center, angle, scale)
-        rotated = cv2.warpAffine(image, M, (w, h))
+        rotated = cv2.warpAffine(image, M, (w, h), borderValue=(255, 255, 255))
 
         # 返回旋转后的图像
         return rotated
 
-    if 1 <= rotation <= 7:
+    if 0 < abs(rotation) <= 7:
         img_correct = rotate(image, rotation)
+        cv2.imwrite('test.jpg', img_correct)
+
         return img_correct
     else:
         return image
 
 
-def radon_cv(image):
+def rotate_cv(image):
     """ not Long time consuming, not Strong generalization ability, not high accuracy, more super parameters"""
-    img_np = resize_by_percent(asarray(image), 1)
+    img_np = resize_by_percent(asarray(image), 0.8)  # 500, 700
     if len(img_np.shape) == 3:
         img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
     canny_image = cv2.Canny(img_np, 0, 255, apertureSize=3)
@@ -113,16 +115,17 @@ def radon_cv(image):
 
     # 获取旋转角度
     angle = cv2.fastAtan2((y2 - y1), (x2 - x1))
-    print(angle)
+    print('cv: ', angle)
 
-    if 0.5 <= angle <= 7:  # 因为识别误差问题，根据实际情况设置旋转阈值
+    if 0.5 <= 1 <= 7:  # 因为识别误差问题，根据实际情况设置旋转阈值
         centerpoint = (image.shape[1] / 2, image.shape[0] / 2)
-        rotate_mat = cv2.getRotationMatrix2D(centerpoint, angle, 1.0)  # 获取旋转矩阵
+        rotate_mat = cv2.getRotationMatrix2D(centerpoint, -1, 1.0)  # 获取旋转矩阵
         correct_image = cv2.warpAffine(image, rotate_mat, (image.shape[1], image.shape[0]),
                                        borderValue=(255, 255, 255))
 
         # cv2.imshow('test', resize_by_percent(correct_image, 0.1))
         # cv2.waitKey(10)
+        cv2.imwrite('test.jpg', correct_image)
         return correct_image
     else:
         return image
@@ -130,11 +133,12 @@ def radon_cv(image):
 
 if __name__ == '__main__':
     import time
-    img_path = r'C:\Users\Administrator\Desktop\subject\history\01.jpg'
+    img_path = r'C:\Users\Administrator\Desktop\2018-11-13\800 (2).jpg'
     img = cv2.imread(img_path)
+
     # gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     time1 = time.time()
-    radon_cv(img)
+    # rotate_cv(img)
     time2 = time.time()
     print(time2-time1)
 

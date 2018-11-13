@@ -6,9 +6,11 @@ from ocr.tesseract import tesseract_by_cmd, tesseract_by_py
 
 
 if __name__ == '__main__':
-    root_dir = r'C:\Users\Administrator\Desktop\subject'
+    lang = 'chi_sim+eng'
+
+    root_dir = r'C:\Users\Administrator\Desktop\eng'
     # dir_list = os.listdir(root_dir)
-    dir_list = ['history']
+    dir_list = ['eng']
     for dir in dir_list:
         img_dir0 = os.path.join(root_dir, dir)
         find_str = os.path.join(img_dir0, '*.jpg')
@@ -16,4 +18,4 @@ if __name__ == '__main__':
         for img in img_path_list:
             txt_path = img.replace('.jpg', '_cmd')
             # tesseract_by_cmd(img, txt_path)
-            tesseract_by_py(img, txt_path.replace('_cmd', '_py.txt'))
+            tesseract_by_py(lang, img, txt_path.replace('_cmd', '_py.txt'))
