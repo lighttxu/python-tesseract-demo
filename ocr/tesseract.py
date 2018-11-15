@@ -40,8 +40,9 @@ def tesseract_boxes_by_py(ocr_lang, img_path, save_txt_path):
     bottom = [(h-bottom) for bottom in txt['bottom']]
     mtx = np.matrix([left, top, right, bottom])
 
-    print(txt)
-    print(mtx)
+    # print(txt)
+    # print(mtx.tolist())
+    return char_list, mtx.tolist()
 
 
 if __name__ == '__main__':
