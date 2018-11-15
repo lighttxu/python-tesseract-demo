@@ -59,7 +59,7 @@ def radon_demo():
 
 def radon_ski(image):
     """ Long time consuming, Strong generalization ability, high accuracy"""
-    img_np = resize_by_percent(asarray(image), 0.2)
+    img_np = resize_by_percent(asarray(image), 0.8)
     if len(img_np.shape) == 3:
         img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
     img_np_mean = img_np - mean(img_np)
@@ -133,7 +133,7 @@ def rotate_cv(image):
 
 if __name__ == '__main__':
     import time
-    img_path = r'C:\Users\Administrator\Desktop\2018-11-13\800 (2).jpg'
+    img_path = r'C:\Users\Administrator\Desktop\11142018043727\Page0001_2.jpg'
     img = cv2.imread(img_path)
 
     # gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
