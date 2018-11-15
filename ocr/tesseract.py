@@ -35,9 +35,9 @@ def tesseract_boxes_by_py(ocr_lang, img_path, save_txt_path):
     h, w = img.shape
     char_list = txt['char']
     left = txt['left']
-    top = [(h - top) for top in txt['bottom']]
+    top = [(h - top) for top in txt['top']]
     right = txt['right']
-    bottom = [(h-bottom) for bottom in txt['top']]
+    bottom = [(h-bottom) for bottom in txt['bottom']]
     mtx = np.matrix([left, top, right, bottom])
 
     print(txt)
