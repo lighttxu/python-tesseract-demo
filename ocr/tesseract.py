@@ -3,6 +3,8 @@
 from subprocess import Popen, PIPE, STDOUT
 import os
 
+import time
+
 import pytesseract
 from ocr import preprocess, radon_transform
 import cv2
@@ -28,24 +30,27 @@ def tesseract_by_py(ocr_lang, img_path, save_txt_path):
     print('{} by python done!'.format(img_path))
 
 
-def tesseract_boxes_by_py(ocr_lang, img_path, save_txt_path):
+def tesseract_boxes_by_py(ocr_lang, img_path):
     img = preprocess.preprocess(img_path, show=False)
     # img = radon_transform.radon_cv(img)
     txt = pytesseract.image_to_boxes(img, lang=ocr_lang, output_type='dict')
     h, w = img.shape
     char_list = txt['char']
     left = txt['left']
-    top = [(h - top) for top in txt['top']]
+    bottom = [(h - top) for top in txt['top']]
     right = txt['right']
-    bottom = [(h-bottom) for bottom in txt['bottom']]
+    top = [(h-bottom) for bottom in txt['bottom']]
     mtx = np.matrix([left, top, right, bottom])
 
-    # print(txt)
-    # print(mtx.tolist())
+    res_dict = {'chars': char_list, 'coordinates': mtx.tolist()}
+    print(res_dict)
     return char_list, mtx.tolist()
 
 
 if __name__ == '__main__':
-    img_path = r'C:\Users\Administrator\Desktop\sheet\segment\new\000001.jpg'
+    img_path = r'C:\Users\Administrator\Desktop\sheet\correct\info_title_flppy.jpg'
     lang = 'chi_sim+eng'
-    tesseract_boxes_by_py(lang, img_path, '')
+    t1 = time.time()
+    tesseract_boxes_by_py(lang, img_path)
+    t2 = time.time()
+    print(t2-t1)

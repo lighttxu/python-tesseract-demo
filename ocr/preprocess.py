@@ -7,7 +7,7 @@ import numpy as np
 def preprocess(picture, show=False):
     scale = 0
     dilate = 1
-    blur = 5
+    blur = 3
 
     # 预处理图像
     img = cv2.imread(picture)
