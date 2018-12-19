@@ -40,11 +40,12 @@ def tesseract_boxes_by_py(ocr_lang, img_path):
     bottom = [(h - top) for top in txt['top']]
     right = txt['right']
     top = [(h-bottom) for bottom in txt['bottom']]
-    mtx = np.matrix([left, top, right, bottom])
+    matrix = []
+    for i, ele in enumerate(left):
+        matrix.append((ele, top[i], right[i], bottom[i]))
 
-    res_dict = {'chars': char_list, 'coordinates': mtx.tolist()}
-    print(res_dict)
-    return char_list, mtx.tolist()
+    res_dict = {'chars': char_list, 'coordinates': matrix}
+    return res_dict
 
 
 if __name__ == '__main__':
