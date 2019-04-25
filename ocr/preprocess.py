@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 
-def preprocess(picture, show=False):
+def preprocess(picture, show=True):
     scale = 0
     dilate = 1
     blur = 3
@@ -38,3 +38,9 @@ def preprocess(picture, show=False):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
     return img
+
+
+if __name__ == '__main__':
+    path = r'C:\Users\Administrator\Desktop\test\image1.png'
+    preprocess(path)
+
